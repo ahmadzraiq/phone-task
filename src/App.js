@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
-function App() {
+import React, { useState, useRef } from "react";
+import PhoneMenu from "./PhoneMenu";
+export default function App() {
+  const [isFocus, setIsFocus] = useState(false);
+  const [defaultCode, setDefaultCode] = useState(121);
+  const inputRef = useRef();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="root" onClick={() => setIsFocus(false)}>
+      <div className="container">
+        <div className="phoneTitle">Phone</div>
+        <div
+          className="inputField"
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsFocus(true);
+          }}
         >
-          Learn React
-        </a>
-      </header>
+          <span className="fontSize16">+{defaultCode}</span>
+          <input ref={inputRef} className="inputTel fontSize16" />
+        </div>
+        <div style={{ display: isFocus ? "block" : "none" }}>
+          <PhoneMenu inputRef={inputRef} setDefaultCode={setDefaultCode} />
+        </div>
+      </div>
     </div>
   );
 }
-
-export default App;
