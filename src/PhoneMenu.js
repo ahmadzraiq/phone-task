@@ -2,19 +2,26 @@ import React, { useState } from "react";
 import PhoneRow from "./phoneRow";
 import axios from "axios";
 
-export default function PhoneMenu({ inputRef, setDefaultCode }) {
+export default function PhoneMenu({
+  inputRef,
+  setDefaultCode,
+  setDidSearchFocus,
+  didSearchFocus,
+}) {
   const [countries, setCountries] = useState([]);
   const [result, setResult] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState({});
   const [inputValue, setInputValue] = useState("");
   const getCountries = () => {
-    if (countries.length == 0)
+    setDidSearchFocus(true);
+    if (countries.length == 0) {
       axios
         .get("https://restcountries.eu/rest/v2/all")
         .then((res) => {
           setCountries(res.data);
         })
         .catch((e) => console.log(e));
+    }
   };
 
   const handleOnChange = ({ target: { value } }) => {
@@ -37,7 +44,7 @@ export default function PhoneMenu({ inputRef, setDefaultCode }) {
         });
         setResult([]);
         setInputValue("");
-        setCountries([]);
+        setDidSearchFocus(false);
         inputRef.current.focus();
         setDefaultCode(country.callingCodes[0]);
       }}
@@ -65,11 +72,13 @@ export default function PhoneMenu({ inputRef, setDefaultCode }) {
         onChange={handleOnChange}
         value={inputValue}
       />
-      <div className="countriesList">
-        {result.length != 0
-          ? result.map(renderItem)
-          : countries.map(renderItem)}
-      </div>
+      {didSearchFocus && (
+        <div className="countriesList">
+          {result.length != 0
+            ? result.map(renderItem)
+            : countries.map(renderItem)}
+        </div>
+      )}
     </div>
   );
 }
