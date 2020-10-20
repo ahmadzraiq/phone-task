@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import PhoneRow from "./phoneRow";
 import axios from "axios";
+import { IoIosClose } from "react-icons/io";
 
 export default function PhoneMenu({
   inputRef,
   setDefaultCode,
   setDidSearchFocus,
   didSearchFocus,
+  NoItem
 }) {
   const [countries, setCountries] = useState([]);
   const [result, setResult] = useState([]);
@@ -65,19 +67,34 @@ export default function PhoneMenu({
         img={selectedCountry.flag}
         changeValue={setSelectedCountry}
       />
-      <input
-        className="searchInput"
-        placeholder="Search"
-        onClick={getCountries}
-        onChange={handleOnChange}
-        value={inputValue}
-      />
-      {didSearchFocus && (
-        <div className="countriesList">
-          {result.length != 0
-            ? result.map(renderItem)
-            : countries.map(renderItem)}
-        </div>
+      <div className="searchInputContainer">
+        <input
+          className="searchInput"
+          placeholder="Search"
+          onClick={getCountries}
+          onChange={handleOnChange}
+          value={inputValue}
+        />
+        {result.length == 0 && didSearchFocus && inputValue && (
+          <div onClick={() => setInputValue("")}>
+            <IoIosClose
+              style={{ cursor: "pointer" }}
+              size={20}
+              color="#695959"
+            />
+          </div>
+        )}
+      </div>
+      {result.length == 0 && didSearchFocus && inputValue ? (
+        <NoItem />
+      ) : (
+        didSearchFocus && (
+          <div className="countriesList">
+            {result.length != 0
+              ? result.map(renderItem)
+              : countries.map(renderItem)}
+          </div>
+        )
       )}
     </div>
   );

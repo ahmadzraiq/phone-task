@@ -66,7 +66,6 @@ html,
 .searchInput {
   border: none;
   outline: none;
-  height: 23px;
   width: 100%;
   margin-bottom: 20px;
 }
@@ -74,4 +73,12 @@ html,
 .countriesList {
   max-height: 210px;
   overflow: scroll;
+}
+
+.searchInputContainer {
+  display: flex;
+}
+
+.noResults {
+  color: #ccc;
 }

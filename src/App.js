@@ -4,8 +4,9 @@ export default function App() {
   const [isFocus, setIsFocus] = useState(false);
   const [defaultCode, setDefaultCode] = useState(1);
   const [didSearchFocus, setDidSearchFocus] = useState(false);
-
   const inputRef = useRef();
+
+  const renderNoItem = () => <span className="noResults">No results</span>;
   return (
     <div
       className="root"
@@ -32,6 +33,7 @@ export default function App() {
             setDefaultCode={setDefaultCode}
             setDidSearchFocus={setDidSearchFocus}
             didSearchFocus={didSearchFocus}
+            NoItem={renderNoItem}
           />
         </div>
       </div>
